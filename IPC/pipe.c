@@ -8,7 +8,7 @@
 int main()
 {
     pid_t cpid;
-    int fifod[2];
+    int fifod[2];  // fifod[0]为读端，fifod[1]为写端
     int sta;
     char buf[BUFSIZE] = "Linux C\n";
     if (pipe(fifod) < 0)
