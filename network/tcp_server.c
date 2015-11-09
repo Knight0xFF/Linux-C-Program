@@ -6,7 +6,7 @@
 
 int main()
 {
-    int res;
+    int ret;
     int sockfd;
     int clientfd;
     struct sockaddr_in hostaddr;
@@ -24,14 +24,14 @@ int main()
     hostaddr.sin_family = AF_INET;
     hostaddr.sin_port = htons(SERVER_PORT);
     hostaddr.sin_addr.s_addr = INADDR_ANY;
-    res = bind(sockfd, (struct sockaddr *)&hostaddr, sizeof(struct sockaddr));
-    if (res == -1)
+    ret = bind(sockfd, (struct sockaddr *)&hostaddr, sizeof(struct sockaddr));
+    if (ret == -1)
     {
         perror("bind socked fail\n");
         exit(1);
     }
-    res = listen(sockfd, LENGTH);
-    if (res == -1)
+    ret = listen(sockfd, LENGTH);
+    if (ret == -1)
     {
         perror("set listen mode fail\n");
         exit(1);
@@ -54,7 +54,7 @@ int main()
         if (cnt == -1)
         {
             perror("receive data error\n");
-            exit(1);
+            exit(1);9
         }
         printf("receive data: %s\n", buf);
         close(clientfd);

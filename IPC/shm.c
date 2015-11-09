@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <sys/ipc.h>
-#include <sys/shm.h>
+#include <sys/shm.h> 
 #define SHM_SIZE 1024
 #define TIME_OUT 2
 
