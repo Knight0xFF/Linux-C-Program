@@ -21,11 +21,54 @@ str_cli(FILE *fp, int sockfd)
 }
 
 
+void str_cli_select(FILE *fp, int sockfd)
+{
+    int max_fd1, stdin_eof;
+    fd_set rset;
+    char buf[MAXLINE];
+    int n;
+
+    stdin_eof = 0;
+    FD_ZERO(&rset);
+
+    for (;;)
+    {
+        if (stdin_eof == 0)
+            FD_SET(fileno(fp), &rset);
+        FD_SET(sockfd, &rset);
+        max_fd1 = max(fileno(fp), sockfd) + 1;
+        select(max_fd1, &rset, NULL, NULL, NULL);
+
+        if (FD_ISSET(sockfd, &rset))
+        {
+            if ( (n = read(sockfd, buf, MAXLINE)) == 0)
+            {
+                if (stdin_eof == 1)
+                    return;
+                else
+                    err_quit("server terminated prematurely");
+            }
+            Writen(fileno(stdout), buf, n);
+        }
+
+        if (FD_ISSET(fileno(fp), &rset))
+        {
+            if ( (n = read(fileno(fp), buf, MAXLINE)) == 0)
+            {
+                stdin_eof = 1;
+                shutdown(sockfd, SHUT_WR);
+                FD_CLR(fileno(fp), &rset);
+                continue;
+            }
+            Writen(sockfd, buf, MAXLINE);
+        }
+    }
+}
+
 int main(int argc, char **argv)
 {
     int client_sock;
     struct sockaddr_in server_addr;
-
     if (argc != 2)
         err_quit("args error");
 
