@@ -54,7 +54,7 @@ int main()
         if (cnt == -1)
         {
             perror("receive data error\n");
-            exit(1);9
+            exit(1);
         }
         printf("receive data: %s\n", buf);
         close(clientfd);
