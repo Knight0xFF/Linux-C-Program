@@ -1,8 +1,10 @@
 //
-// Created by 曾强 on 16/1/24.
+// Created by XiaoBai on 16/1/24.
 //
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 // hello world
 void hello_word()
@@ -133,7 +135,27 @@ void flow_demo()
 void point_demo()
 {
     printf("%s\n", "指针");
+    // 指针变量保存内存地址，内存地址保存变量的值
+    // 指针定义：类型 *变量名
+    int *ptr1;  // 值是某个整型变量的地址
+    long *xiaobai;  // xiaobai 是个没有对象的野指针
 
+    int value1 = 3;
+    // 赋值
+    ptr1 = &value1;
+
+    // 数组指针
+    int array[5] = {0, 1, 2, 3,4}, *ptr2;
+    ptr2 = array;
+    ptr2 = &array[0];   // 两者等价
+
+    // & 取址运算符 *取值运算符
+    printf("%p, %p, %d\n", ptr1, &ptr1, *ptr1);
+    for (value1 = 0; value1 < 5; value1++)
+    {
+        printf("数组输出:%d, 指针输出:%d", array[value1], *ptr2++);
+        printf("\n");
+    }
 
     printf("\n");
 }
@@ -141,18 +163,108 @@ void point_demo()
 // 5.函数
 int function1(int arg1, int arg2)
 {
-
+    // 返回arg1，arg2的较大者
+    return (arg1 > arg2) ? arg1 : arg2;
 }
+
+void function2(int *arg1, int *arg2)
+{
+    // 交换两个变量的值，使用指针实现
+    int temp;
+    temp = *arg1;
+    *arg1 = *arg2;
+    *arg2 = temp;
+}
+
+int function3(int n)
+{
+    // 斐波那契数列，递归的使用
+    if (n <= 2)
+        return n;
+    else
+        return function3(n - 1) + function3(n - 2);
+}
+
+void function_demo()
+{
+    printf("%s\n", "函数");
+    int a = 10, b = 20, result;
+    // 函数调用与返回
+    result = function1(a, b);
+    printf("%d\n", result);
+
+    //参数为地址
+    function2(&a, &b);
+    printf("a = %d, b = %d\n", a, b);
+
+    for (a = 0; a < b; a++)
+        printf("%d ", function3(a));
+
+    printf("\n");
+}
+
+
 // 6.结构体
+/* 定义方法：
+ * struct 结构名{
+ *      成员列表
+ * }
+ *
+*/
+struct Pig {
+    char head;
+    int fat;
+};
+
+struct Fool {
+    struct Pig xiaobai;  // 使用Pig结构
+    int number;
+} *fool_ptr, fool = {'z', 3, 5}; // 顺便定义了两个Fool类型的变量和指针变量
+
+void struct_demo()
+{
+    printf("%s\n", "结构体");
+    fool_ptr = &fool;
+    fool_ptr->number = 666;
+
+    printf("%c, %d, %d\n", fool_ptr->xiaobai.head, fool_ptr->xiaobai.fat, fool_ptr->number);
+
+    printf("\n");
+}
+
+
 // 7.内存分配
+void memory_demo()
+{
+    printf("%s\n", "内存分配");
+    char *xiaobai;  // xiaobai这个没有对象的指针啊
+
+    xiaobai = (char *)malloc(66 * sizeof(char));
+    if (xiaobai == NULL)
+        exit(1);
+    strncpy(xiaobai, "给你个对象吧", 20);
+    printf("%s\n", xiaobai);
+
+    free(xiaobai);  // 还是没对象吧
+    xiaobai = NULL;
+
+    printf("\n");
+}
+
 // 8.预处理
+// include 包含头文件
+#define MAXNUMBER 250;
 
 int main(int argc, char **argv)
 {
-    type_demo();
-    operator_demo();
-    flow_demo();
-    point_demo();
+    hello_word();
+    //type_demo();
+    //operator_demo();
+    //flow_demo();
+    //point_demo();
+    //function_demo();
+    //struct_demo();
+    //memory_demo();
 
     return 0;
 }
