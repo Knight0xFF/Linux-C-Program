@@ -237,7 +237,7 @@ void struct_demo()
 void memory_demo()
 {
     printf("%s\n", "内存分配");
-    char *xiaobai;  // xiaobai这个没有对象的指针啊
+    char *xiaobai;  //
 
     xiaobai = (char *)malloc(66 * sizeof(char));
     if (xiaobai == NULL)
